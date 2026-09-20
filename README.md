@@ -156,10 +156,13 @@ geographic scope are documented in
 [the city dataset guide](urban_city_dataset/README.md) and
 [the India grid data notes](urban_city_dataset/data/processed/city_grids/INDIA_DATA.md).
 
-## 2D-to-3D planning assets
+## GeoJSON to 3D planning assets
 
-The optional `backend/app/three_d` worker turns a trusted design-reference image
-into an OBJ or GLB asset through TripoSR. It stays separate from the normal API
-runtime, because its model and GPU dependencies are substantial. See
-[the 2D-to-3D guide](docs/THREE_D.md) for setup, the worker command, the
-planning-data boundary, and the path to the future job pipeline.
+The optional `backend/app/integrations/triposr` package consumes the GeoJSON
+produced after zoning and pathway optimisation. It can always extrude exact
+polygon geometry into a city-massing GLB; selected POIs, buildings, or landmarks
+with a `triposr_image` can also be reconstructed by an official TripoSR checkout.
+The model runs as a separate process in its own environment, so PyTorch and CUDA
+do not enter the FastAPI runtime. See [the TripoSR integration guide](README_TRIPOSR.md)
+for the data contract, demo commands, worker configuration, and future provider
+boundary.
