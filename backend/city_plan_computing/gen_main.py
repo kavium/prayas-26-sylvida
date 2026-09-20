@@ -1,6 +1,5 @@
 import torch
 from config import (
-    CITY_ID,
     DROPOUT,
     HIDDEN_DIM,
     NEO4J_DATABASE,
@@ -49,9 +48,9 @@ def main():
         NEO4J_PASSWORD,
         NEO4J_DATABASE,
     ) as loader:
-        cells = loader.load_cells(CITY_ID)
+        cells = loader.load_cells()
 
-    print(f"Loaded {len(cells)} cells for {CITY_ID}")
+    print(f"Loaded {len(cells)} cells from '{NEO4J_DATABASE}'")
 
     # -------------------------
     # Normalization
