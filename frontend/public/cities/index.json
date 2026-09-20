@@ -1,0 +1,50 @@
+{
+  "cities": [
+    {
+      "id": "mumbai",
+      "name": "Mumbai",
+      "country": "India",
+      "center": [
+        19.13123,
+        72.91471
+      ],
+      "bounds": [
+        [
+          18.8868,
+          72.7784
+        ],
+        [
+          19.32483,
+          73.11131
+        ]
+      ],
+      "cells": 738,
+      "population": 20453270,
+      "proposals": 40,
+      "meanL": 0.5858
+    },
+    {
+      "id": "bengaluru",
+      "name": "Bengaluru",
+      "country": "India",
+      "center": [
+        13.00824,
+        77.58238
+      ],
+      "bounds": [
+        [
+          12.76241,
+          77.36785
+        ],
+        [
+          13.21167,
+          77.79056
+        ]
+      ],
+      "cells": 1008,
+      "population": 15178532,
+      "proposals": 40,
+      "meanL": 0.7073
+    }
+  ]
+}

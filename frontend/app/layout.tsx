@@ -1,28 +1,38 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Inter } from "next/font/google";
+import { Archivo, Azeret_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+/** Editorial serif. Headlines, figures, the wordmark — read once, not scanned. */
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-fraunces",
+  axes: ["SOFT", "WONK", "opsz"],
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
+/** Interface face. Narrow enough to survive a 336px rail without truncating. */
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
+  variable: "--font-archivo",
+  display: "swap",
+});
+
+/** Every number in the product. Tabular so columns of scores do not shimmer. */
+const azeret = Azeret_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-azeret",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Sylvida - Urban planning simulator",
+  title: "Sylvida — zonal planning studio",
   description:
-    "An AI-assisted urban planning simulator for testing infrastructure decisions before they become real-world investments.",
+    "Finds the cells on a city's edge whose land use is holding quality of life back, and shows what changing each one would do.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0F14",
+  themeColor: "#14161a",
   colorScheme: "dark",
 };
 
@@ -30,8 +40,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${archivo.variable} ${azeret.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,3 +1,5 @@
-export default function Placeholder() {
-  return null;
+import { StudioShell } from "@/components/studio/StudioShell";
+
+export default function Page() {
+  return <StudioShell />;
 }

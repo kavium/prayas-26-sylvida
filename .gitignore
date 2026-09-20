@@ -233,7 +233,7 @@ out/
 backend/supabase/.temp/
 backend/supabase/.branches/
 
-# Claude-owned data pipeline artifacts: leave these directories uncommitted
+# Local data and notebook artifacts: leave these directories uncommitted
 data/
 datasets/
 notebooks/
@@ -257,5 +257,7 @@ sprites/
 
 # The upstream Python template ignores every directory named lib; keep the
 # frontend's source library code tracked.
-!frontend/src/lib/
-!frontend/src/lib/**
+!frontend/lib/
+!frontend/lib/**
+
+.prayas-dev/

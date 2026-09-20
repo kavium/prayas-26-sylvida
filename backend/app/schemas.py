@@ -22,3 +22,11 @@ class JobStatus(BaseModel):
     created_at: datetime
     result_path: str | None = None
     error: str | None = None
+
+
+class MassingRequest(BaseModel):
+    """A planning GeoJSON document ready for deterministic 3D extrusion."""
+
+    feature_collection: dict[str, Any]
+    default_height_m: float = Field(default=6.0, gt=0, le=1_000)
+    meters_per_floor: float = Field(default=3.0, gt=0, le=100)

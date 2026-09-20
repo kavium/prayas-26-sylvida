@@ -1,73 +1,61 @@
-/** Number and unit formatting. One vocabulary for every readout. */
+/**
+ * Number formatting.
+ *
+ * Every locale-sensitive format in the product goes through here with an
+ * explicit "en-US" locale: the default locale groups Indian-English digits as
+ * 1,36,696, which reads as a typo next to the rest of the interface.
+ */
 
-import type { MetricUnit } from "@/types";
+const LOCALE = "en-US";
 
-export function formatPercent(v: number, digits = 0): string {
-  return `${v.toFixed(digits)}%`;
+/** Thousands-separated integer. */
+export function count(value: number): string {
+  return Math.round(value).toLocaleString(LOCALE);
 }
 
-/** 18420 becomes "18,420"; 1_840_000 becomes "1.84M". */
-export function formatPeople(v: number): string {
-  const n = Math.round(v);
-  if (Math.abs(n) >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`;
-  if (Math.abs(n) >= 100_000) return `${(n / 1000).toFixed(1)}K`;
-  return n.toLocaleString("en-IN");
+/** Large populations, shortened: 1.2M, 340k, 8,400. */
+export function people(value: number): string {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(value >= 10_000_000 ? 0 : 1)}M`;
+  if (value >= 10_000) return `${Math.round(value / 1000)}k`;
+  return count(value);
 }
 
-export function formatPeopleExact(v: number): string {
-  return Math.round(v).toLocaleString("en-IN");
-}
-
-/** Crore INR. */
-export function formatCost(v: number): string {
-  return `₹${Math.round(v).toLocaleString("en-IN")} Cr`;
-}
-
-export function formatMinutes(v: number): string {
-  return `${v.toFixed(0)} min`;
-}
-
-export function formatKm(v: number, digits = 1): string {
-  return `${v.toFixed(digits)} km`;
-}
-
-export function formatMetric(value: number, unit: MetricUnit): string {
-  switch (unit) {
-    case "percent":
-      return formatPercent(value);
-    case "people":
-      return formatPeople(value);
-    case "minutes":
-      return formatMinutes(value);
-    case "crore":
-      return formatCost(value);
-    case "km2":
-      return `${value.toFixed(1)} km²`;
-  }
-}
-
-/** Signed change with the sign always shown, for delta readouts. */
-export function formatSigned(value: number, unit: MetricUnit): string {
-  const sign = value > 0 ? "+" : value < 0 ? "−" : "";
-  return `${sign}${formatMetric(Math.abs(value), unit)}`;
-}
-
-export function formatPoints(value: number): string {
-  const sign = value > 0 ? "+" : value < 0 ? "−" : "";
-  return `${sign}${Math.abs(value).toFixed(0)} pts`;
-}
-
-export function formatTimestamp(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleString("en-GB", {
-    day: "2-digit",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
+/** A livability score, 0 to 1, three decimals. */
+export function score(value: number): string {
+  return value.toLocaleString(LOCALE, {
+    minimumFractionDigits: 3,
+    maximumFractionDigits: 3,
   });
 }
 
-/** Sentence case for a need or facility id. */
-export function titleCase(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
+/**
+ * Population-weighted impact: people multiplied by the score they gained.
+ *
+ * The raw figure runs from a few hundred to the high thousands, so it is
+ * shortened the same way populations are and always carries its sign — a
+ * change that costs people is as real a result as one that helps them.
+ */
+export function impact(value: number): string {
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  return `${sign}${people(Math.abs(value))}`;
+}
+
+/** A signed change, with the sign always shown. */
+export function delta(value: number, digits = 1): string {
+  const fixed = Math.abs(value).toLocaleString(LOCALE, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  });
+  // Zero has no sign, and at zero digits there is no decimal point either.
+  if (Math.abs(value) < 10 ** -digits / 2) {
+    return digits > 0 ? `0.${"0".repeat(digits)}` : "0";
+  }
+  return `${value > 0 ? "+" : "-"}${fixed}`;
+}
+
+export function percent(fraction: number, digits = 0): string {
+  return `${(fraction * 100).toLocaleString(LOCALE, {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  })}%`;
 }
