@@ -115,19 +115,41 @@ the data. Set `NEO4J_PASSWORD` and, optionally, `URBAN_CITY_ID` before running
 
 ## Data credits
 
-The committed Mumbai and Bengaluru city-grid datasets are derived from the
+The committed urban city-grid and city-level datasets are derived from the
 following public sources. They support planning prototypes and must be checked
-against local authoritative data before operational use.
+against local authoritative data before operational use. The current city-level
+run covers Tokyo, Singapore, Copenhagen, Amsterdam, Barcelona, Zurich,
+Stockholm, London, Paris, and New York City.
 
 - [GHSL](https://human-settlement.emergency.copernicus.eu/) (European Commission
   Joint Research Centre): 2025 urban-centre boundaries and GHS-POP R2023A 2025
-  population estimates.
+  population estimates. Cite Rivero et al., *GHS-UCDB R2024A - GHS Urban
+  Centre Database 2025*, DOI
+  [10.2905/1a338be6-7eaf-480c-9664-3a8ade88cbcd](https://doi.org/10.2905/1a338be6-7eaf-480c-9664-3a8ade88cbcd).
 - [Overture Maps](https://docs.overturemaps.org/getting-data/duckdb/): building
   footprints and land-use features, using the configured `2026-08-19.0` release,
   for land-use classification and building-density calculations. See Overture's
   [attribution guidance](https://docs.overturemaps.org/attribution/).
+- [OpenStreetMap](https://www.openstreetmap.org/) contributors, queried through
+  [Overpass](https://wiki.openstreetmap.org/wiki/Overpass_API): supplementary
+  hospitals, schools, parks, transit, and other POIs. OSM data is available under
+  the [ODbL 1.0](https://opendatacommons.org/licenses/odbl/); retain the credit
+  “© OpenStreetMap contributors.”
+- [Eurostat City Statistics / Urban Audit](https://ec.europa.eu/eurostat/cache/metadata/en/urb_esms.htm):
+  separate European administrative-city context data. These observations are
+  not merged into GHSL-boundary features.
 - [Copernicus DEM GLO-30](https://registry.opendata.aws/copernicus-dem/):
-  elevation values sampled for each grid cell.
+  ESA/Copernicus Programme elevation values sampled for each grid cell. Follow
+  the [Copernicus DEM licence](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM).
+
+Overture features may carry different contributing-provider licences; do not
+describe all Overture features as having one common licence. GHSL indicator
+definitions retain upstream acknowledgements for Copernicus, Sentinel/Landsat,
+USGS, UN-Habitat, and other contributors where applicable.
+
+Suggested acknowledgement: “This work uses data from the European Commission
+Joint Research Centre GHSL, Overture Maps Foundation, OpenStreetMap contributors,
+Eurostat, and the ESA/Copernicus Programme.”
 
 The dataset-specific source URLs, retrieval metadata, field derivations, and
 geographic scope are documented in
