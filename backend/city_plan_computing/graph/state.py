@@ -4,6 +4,7 @@ from .features import build_dynamic_features
 
 
 class CityState:
+
     def __init__(
         self,
         num_nodes,
@@ -27,15 +28,24 @@ class CityState:
     def assign(self, node_index, zone_id):
 
         if self.assigned_zones[node_index] != -1:
-            raise ValueError(f"Node {node_index} already assigned")
+            raise ValueError(
+                f"Node {node_index} already assigned"
+            )
 
-        self.assigned_zones[node_index] = zone_id
+        self.assigned_zones[
+            node_index
+        ] = zone_id
 
     def is_assigned(self, node_index):
-        return self.assigned_zones[node_index] != -1
+        return (
+            self.assigned_zones[node_index]
+            != -1
+        )
 
     def unassigned_nodes(self):
-        return torch.where(self.assigned_zones == -1)[0]
+        return torch.where(
+            self.assigned_zones == -1
+        )[0]
 
     def frontier(self, zone_id):
         """
@@ -46,11 +56,16 @@ class CityState:
         frontier = set()
 
         for node in range(self.num_nodes):
+
             if self.assigned_zones[node] != zone_id:
                 continue
 
             for neighbor in self.neighbor_lists[node]:
-                if self.assigned_zones[neighbor] == -1:
+
+                if (
+                    self.assigned_zones[neighbor]
+                    == -1
+                ):
                     frontier.add(neighbor)
 
         return list(frontier)

@@ -2,6 +2,7 @@ import torch
 
 
 class CityGeneratorEngine:
+
     def __init__(
         self,
         model,
@@ -14,7 +15,9 @@ class CityGeneratorEngine:
 
         self.graph = graph
 
-        self.static_features = static_features
+        self.static_features = (
+            static_features
+        )
 
         self.num_zones = num_zones
 
@@ -36,11 +39,16 @@ class CityGeneratorEngine:
         generation_log = []
 
         while torch.any(assigned == -1):
+
             # -------------------------
             # BUILD CURRENT STATE
             # -------------------------
 
-            dynamic = self._dynamic_features(assigned)
+            dynamic = (
+                self._dynamic_features(
+                    assigned
+                )
+            )
 
             x = torch.cat(
                 [
@@ -50,34 +58,55 @@ class CityGeneratorEngine:
                 dim=1,
             ).to(self.device)
 
-            edge_index = self.graph.edge_index.to(self.device)
+            edge_index = (
+                self.graph.edge_index
+                .to(self.device)
+            )
 
             outputs = self.model(
                 x,
                 edge_index,
             )
 
-            h = outputs["embeddings"]
+            h = outputs[
+                "embeddings"
+            ]
 
             # -------------------------
             # CHOOSE NEW ROOT
             # -------------------------
 
-            unassigned = torch.where(assigned == -1)[0]
+            unassigned = torch.where(
+                assigned == -1
+            )[0]
 
-            root_logits = outputs["root_logits"][unassigned]
+            root_logits = (
+                outputs["root_logits"]
+                [unassigned]
+            )
 
-            root_position = torch.argmax(root_logits)
+            root_position = torch.argmax(
+                root_logits
+            )
 
-            root = int(unassigned[root_position])
+            root = int(
+                unassigned[root_position]
+            )
 
             # -------------------------
             # CHOOSE ZONE
             # -------------------------
 
-            zone_logits = outputs["zone_logits"][root]
+            zone_logits = (
+                outputs["zone_logits"]
+                [root]
+            )
 
-            zone = int(torch.argmax(zone_logits))
+            zone = int(
+                torch.argmax(
+                    zone_logits
+                )
+            )
 
             assigned[root] = zone
 
@@ -94,7 +123,12 @@ class CityGeneratorEngine:
             # -------------------------
 
             while True:
-                dynamic = self._dynamic_features(assigned)
+
+                dynamic = (
+                    self._dynamic_features(
+                        assigned
+                    )
+                )
 
                 x = torch.cat(
                     [
@@ -109,7 +143,9 @@ class CityGeneratorEngine:
                     edge_index,
                 )
 
-                h = outputs["embeddings"]
+                h = outputs[
+                    "embeddings"
+                ]
 
                 frontier = self._frontier(
                     assigned,
@@ -125,17 +161,27 @@ class CityGeneratorEngine:
                     device=self.device,
                 )
 
-                expand_logits = self.model.expansion_scores(
-                    h,
-                    frontier_tensor,
-                    zone,
+                expand_logits = (
+                    self.model.expansion_scores(
+                        h,
+                        frontier_tensor,
+                        zone,
+                    )
                 )
 
-                best_position = torch.argmax(expand_logits)
+                best_position = torch.argmax(
+                    expand_logits
+                )
 
-                best_cell = int(frontier_tensor[best_position])
+                best_cell = int(
+                    frontier_tensor[
+                        best_position
+                    ]
+                )
 
-                assigned[best_cell] = zone
+                assigned[
+                    best_cell
+                ] = zone
 
                 generation_log.append(
                     {
@@ -149,16 +195,27 @@ class CityGeneratorEngine:
                 # STOP DECISION
                 # ---------------------
 
-                zone_nodes = torch.where(assigned == zone)[0]
+                zone_nodes = torch.where(
+                    assigned == zone
+                )[0]
 
-                stop_logit = self.model.stop_score(
-                    h,
-                    zone_nodes,
+                stop_logit = (
+                    self.model.stop_score(
+                        h,
+                        zone_nodes,
+                    )
                 )
 
-                stop_probability = torch.sigmoid(stop_logit)
+                stop_probability = (
+                    torch.sigmoid(
+                        stop_logit
+                    )
+                )
 
-                if stop_probability.item() > 0.5:
+                if (
+                    stop_probability.item()
+                    > 0.5
+                ):
                     break
 
         return assigned, generation_log
@@ -170,11 +227,19 @@ class CityGeneratorEngine:
     ):
         frontier = set()
 
-        for node in range(len(assigned)):
+        for node in range(
+            len(assigned)
+        ):
+
             if assigned[node] != zone:
                 continue
 
-            for neighbor in self.graph.neighbor_lists[node]:
+            for neighbor in (
+                self.graph.neighbor_lists[
+                    node
+                ]
+            ):
+
                 if assigned[neighbor] == -1:
                     frontier.add(neighbor)
 

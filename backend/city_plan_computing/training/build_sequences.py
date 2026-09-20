@@ -26,20 +26,27 @@ def choose_zone_root(
     best_score = float("inf")
 
     for candidate in zone_nodes:
+
         queue = deque([candidate])
-        distances = {candidate: 0}
+        distances = {
+            candidate: 0
+        }
 
         while queue:
+
             current = queue.popleft()
 
             for neighbor in neighbor_lists[current]:
+
                 if neighbor not in zone_set:
                     continue
 
                 if neighbor in distances:
                     continue
 
-                distances[neighbor] = distances[current] + 1
+                distances[neighbor] = (
+                    distances[current] + 1
+                )
 
                 queue.append(neighbor)
 
@@ -83,14 +90,21 @@ def build_zone_sequence(
     queue = deque([root])
 
     while queue:
+
         current = queue.popleft()
 
-        neighbors = [n for n in neighbor_lists[current] if n in zone_set and n not in visited]
+        neighbors = [
+            n
+            for n in neighbor_lists[current]
+            if n in zone_set
+            and n not in visited
+        ]
 
         # Deterministic ordering.
         neighbors.sort()
 
         for neighbor in neighbors:
+
             visited.add(neighbor)
 
             sequence.append(
@@ -125,8 +139,12 @@ def build_city_sequence(
     sequences = []
 
     for zone_id in range(num_zones):
+
         zone_nodes = [
-            i for i, assigned_zone in enumerate(zone_assignments) if assigned_zone == zone_id
+            i
+            for i, assigned_zone
+            in enumerate(zone_assignments)
+            if assigned_zone == zone_id
         ]
 
         if not zone_nodes:
@@ -138,6 +156,8 @@ def build_city_sequence(
             neighbor_lists,
         )
 
-        sequences.extend(zone_sequence)
+        sequences.extend(
+            zone_sequence
+        )
 
     return sequences
