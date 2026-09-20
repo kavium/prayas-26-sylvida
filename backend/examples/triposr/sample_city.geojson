@@ -1,0 +1,80 @@
+{
+  "type": "FeatureCollection",
+  "name": "prayas-triposr-synthetic-demo",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "residential-block-a",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.5900, 12.9700],
+            [77.5912, 12.9700],
+            [77.5912, 12.9710],
+            [77.5900, 12.9710],
+            [77.5900, 12.9700]
+          ]
+        ]
+      },
+      "properties": {
+        "feature_kind": "zone",
+        "type": "Residential",
+        "height_m": 12,
+        "population": 4300,
+        "source": "synthetic_demo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "civic-block-b",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [77.5914, 12.9702],
+            [77.5922, 12.9702],
+            [77.5922, 12.9709],
+            [77.5914, 12.9709],
+            [77.5914, 12.9702]
+          ]
+        ]
+      },
+      "properties": {
+        "feature_kind": "building",
+        "type": "Civic",
+        "building_levels": 3,
+        "source": "synthetic_demo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "hospital-1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5918, 12.97055]
+      },
+      "properties": {
+        "feature_kind": "poi",
+        "poi_type": "hospital",
+        "accessibility_score": 0.91,
+        "source": "synthetic_demo"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "connector-road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [77.5898, 12.9698],
+          [77.5924, 12.9712]
+        ]
+      },
+      "properties": {
+        "feature_kind": "road",
+        "source": "synthetic_demo"
+      }
+    }
+  ]
+}

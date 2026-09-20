@@ -1,6 +1,5 @@
 import torch
 from config import (
-    CITY_ID,
     DROPOUT,
     HIDDEN_DIM,
     NEO4J_DATABASE,
@@ -17,7 +16,6 @@ from generation.generator import (
     CityGeneratorEngine,
 )
 from graph.features import (
-    CONTINUOUS_FEATURES,
     extract_static_matrix,
     fit_normalization,
     normalize_matrix,
@@ -28,7 +26,7 @@ from graph.pyg_graph import (
 from models.generator import (
     CityGenerator,
 )
-from neo4j.loader import Neo4jLoader
+from neo4j_interface.loader import Neo4jLoader
 from training.build_sequences import (
     build_city_sequence,
 )
@@ -50,9 +48,9 @@ def main():
         NEO4J_PASSWORD,
         NEO4J_DATABASE,
     ) as loader:
-        cells = loader.load_cells(CITY_ID)
+        cells = loader.load_cells()
 
-    print(f"Loaded {len(cells)} cells for {CITY_ID}")
+    print(f"Loaded {len(cells)} cells from '{NEO4J_DATABASE}'")
 
     # -------------------------
     # Normalization
@@ -123,7 +121,7 @@ def main():
     # neighbor same-zone    = 1
     # neighbor unassigned   = 1
 
-    input_dim = len(CONTINUOUS_FEATURES) + 1 + len(ZONE_TYPES) + 3
+    input_dim = 6 + 1 + len(ZONE_TYPES) + 3
 
     model = CityGenerator(
         input_dim=input_dim,

@@ -227,6 +227,7 @@ out/
 # Local environment files; checked-in examples remain visible
 .env*
 !.env.example
+!.env.triposr.example
 
 # Supabase local state
 backend/supabase/.temp/
@@ -240,6 +241,7 @@ backend/data/
 backend/datasets/
 backend/pipeline-data/
 backend/pipeline/datasets/
+backend/artifacts/
 
 # Local urban dataset pipeline: track the scripts and the extracted 1km grid
 # data, but never the run logs. The global `data/` rule above would otherwise

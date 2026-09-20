@@ -1,0 +1,5 @@
+# Prayas-side geometry dependency. The backend already pins this in pyproject.toml.
+shapely>=2,<3
+
+# Install the official TripoSR requirements in its own environment. Do not add
+# PyTorch/CUDA/model packages to the FastAPI runtime.
