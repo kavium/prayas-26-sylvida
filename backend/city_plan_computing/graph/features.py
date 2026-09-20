@@ -1,19 +1,21 @@
 import json
-
 import numpy as np
 
 CONTINUOUS_FEATURES = [
     "population",
     "green_cover",
-    "building_density",
-    "building_density_observed",
     "elevation",
     "distance_to_boundary",
+    "x",
+    "y",
 ]
 
 
 def build_zone_mapping(zone_types):
-    return {zone: i for i, zone in enumerate(zone_types)}
+    return {
+        zone: i
+        for i, zone in enumerate(zone_types)
+    }
 
 
 def encode_zone(zone, zone_to_id):
@@ -29,23 +31,19 @@ def encode_zone(zone, zone_to_id):
 
 
 def extract_static_matrix(cells):
-    matrix = np.array(
+    matrix = np.array([
         [
-            [
-                float(cell["population"] or 0.0),
-                float(cell["green_cover"] or 0.0),
-                float(cell["building_density"] or 0.0),
-                float(cell["building_density"] is not None),
-                float(cell["elevation"] or 0.0),
-                float(cell["distance_to_boundary"] or 0.0),
-            ]
-            for cell in cells
-        ],
-        dtype=np.float32,
-    )
+            float(cell["population"] or 0.0),
+            float(cell["green_cover"] or 0.0),
+            float(cell["elevation"] or 0.0),
+            float(cell["distance_to_boundary"] or 0.0),
+            float(cell["x"] or 0.0),
+            float(cell["y"] or 0.0),
+        ]
+        for cell in cells
+    ], dtype=np.float32)
 
     return matrix
-
 
 def fit_normalization(matrix):
     mean = matrix.mean(axis=0)
@@ -120,6 +118,7 @@ def build_dynamic_features(
     )
 
     for i in range(num_nodes):
+
         zone = assigned_zones[i]
 
         # Assigned flag.
@@ -141,6 +140,7 @@ def build_dynamic_features(
         unassigned_count = 0
 
         for neighbor in neighbors:
+
             neighbor_zone = assigned_zones[neighbor]
 
             if neighbor_zone == -1:

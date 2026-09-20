@@ -28,7 +28,7 @@ from graph.pyg_graph import (
 from models.generator import (
     CityGenerator,
 )
-from neo4j.loader import Neo4jLoader
+from neo4j_interface.loader import Neo4jLoader
 from training.build_sequences import (
     build_city_sequence,
 )
@@ -123,7 +123,7 @@ def main():
     # neighbor same-zone    = 1
     # neighbor unassigned   = 1
 
-    input_dim = len(CONTINUOUS_FEATURES) + 1 + len(ZONE_TYPES) + 3
+    input_dim = 6 + 1 + len(ZONE_TYPES) + 3
 
     model = CityGenerator(
         input_dim=input_dim,

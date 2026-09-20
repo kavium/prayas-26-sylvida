@@ -1,7 +1,10 @@
+import copy
+
 import torch
 
 
 class TrainingState:
+
     def __init__(
         self,
         assigned_zones,
@@ -23,7 +26,6 @@ class TrainingState:
 
         self.stop_target = stop_target
 
-
 def create_training_states(
     sequence,
     num_nodes,
@@ -39,9 +41,11 @@ def create_training_states(
     current_zone = None
 
     for action in sequence:
+
         action_type = action["action"]
 
         if action_type == "START_ZONE":
+
             current_zone = action["zone"]
 
             states.append(
@@ -53,9 +57,12 @@ def create_training_states(
                 )
             )
 
-            assigned[action["root"]] = current_zone
+            assigned[
+                action["root"]
+            ] = current_zone
 
         elif action_type == "EXPAND":
+
             states.append(
                 TrainingState(
                     assigned_zones=assigned,
@@ -64,9 +71,12 @@ def create_training_states(
                 )
             )
 
-            assigned[action["cell"]] = current_zone
+            assigned[
+                action["cell"]
+            ] = current_zone
 
         elif action_type == "STOP_ZONE":
+
             states.append(
                 TrainingState(
                     assigned_zones=assigned,

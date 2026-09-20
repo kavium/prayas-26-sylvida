@@ -1,46 +1,41 @@
-import os
 from pathlib import Path
 
 # -------------------------
 # Neo4j
 # -------------------------
 
-NEO4J_URI = os.environ.get("NEO4J_URI", "neo4j://localhost:7687")
-NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "neo4j")
-NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "")
-# urban_city_dataset/data/processed/graph/import.sh creates this database.
-NEO4J_DATABASE = os.environ.get("NEO4J_DATABASE", "urban")
-CITY_ID = os.environ.get("URBAN_CITY_ID", "ghsl_1693")
-
+NEO4J_URI = "neo4j://localhost:7687"
+NEO4J_USERNAME = "neo4j"
+NEO4J_PASSWORD = "password"
+# NEO4J_DATABASE = "stockholm"
+NEO4J_DATABASE = "stockholm"
 
 # -------------------------
 # Zones
 # -------------------------
 
 ZONE_TYPES = [
-    "residential",
-    "civic",
-    "commercial",
-    "industrial",
-    "green",
-    "office",
-    "utility",
-    "agricultural",
-    "unbuilt",
-    "other",
+    "Residential",
+    "Civic",
+    "Industrial",
+    "Green",
+    "Office",
+    "Utility",
+    "Commercial",
+    "Agricultural"
 ]
 
-ZONE_TO_ID = {zone: i for i, zone in enumerate(ZONE_TYPES)}
+ZONE_TO_ID = {
+    zone: i
+    for i, zone in enumerate(ZONE_TYPES)
+}
 
-ID_TO_ZONE = {i: zone for zone, i in ZONE_TO_ID.items()}
+ID_TO_ZONE = {
+    i: zone
+    for zone, i in ZONE_TO_ID.items()
+}
 
 NUM_ZONES = len(ZONE_TYPES)
-
-
-def normalize_zone_type(value: str | None) -> str:
-    """Map title-case labels from the urban grid dataset to model classes."""
-    normalized = (value or "other").strip().lower()
-    return normalized if normalized in ZONE_TO_ID else "other"
 
 
 # -------------------------
