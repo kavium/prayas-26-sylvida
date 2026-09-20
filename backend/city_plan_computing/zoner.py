@@ -19,29 +19,23 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-from torch_geometric.nn import SAGEConv
-
 from config import (
+    NEO4J_PASSWORD,
     NEO4J_URI,
     NEO4J_USERNAME,
-    NEO4J_PASSWORD,
-    ZONE_TYPES,
     ZONE_TO_ID,
+    ZONE_TYPES,
 )
-
-from neo4j_interface.loader import Neo4jLoader
-
 from graph.features import (
     extract_static_matrix,
     fit_normalization,
     normalize_matrix,
 )
-
 from graph.pyg_graph import (
     build_pyg_graph,
 )
-
+from neo4j_interface.loader import Neo4jLoader
+from torch_geometric.nn import SAGEConv
 
 NUM_ZONES = len(ZONE_TYPES)
 

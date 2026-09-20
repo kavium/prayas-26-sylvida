@@ -1,6 +1,5 @@
 from collections import deque
 
-
 START_ZONE = "START_ZONE"
 EXPAND = "EXPAND"
 STOP_ZONE = "STOP_ZONE"

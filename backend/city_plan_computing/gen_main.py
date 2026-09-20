@@ -17,7 +17,6 @@ from generation.generator import (
     CityGeneratorEngine,
 )
 from graph.features import (
-    CONTINUOUS_FEATURES,
     extract_static_matrix,
     fit_normalization,
     normalize_matrix,

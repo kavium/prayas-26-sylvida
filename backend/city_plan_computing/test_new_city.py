@@ -1,37 +1,30 @@
-import torch
 import numpy as np
-
+import torch
 from config import (
+    DROPOUT,
+    HIDDEN_DIM,
+    NEO4J_DATABASE,
+    NEO4J_PASSWORD,
     NEO4J_URI,
     NEO4J_USERNAME,
-    NEO4J_PASSWORD,
-    NEO4J_DATABASE,
-    ZONE_TYPES,
     ZONE_TO_ID,
-    HIDDEN_DIM,
-    DROPOUT,
+    ZONE_TYPES,
 )
-
-from neo4j_interface.loader import Neo4jLoader
-
+from generation.generator import (
+    CityGeneratorEngine,
+)
 from graph.features import (
     extract_static_matrix,
     fit_normalization,
     normalize_matrix,
 )
-
 from graph.pyg_graph import (
     build_pyg_graph,
 )
-
 from models.generator import (
     CityGenerator,
 )
-
-from generation.generator import (
-    CityGeneratorEngine,
-)
-
+from neo4j_interface.loader import Neo4jLoader
 
 # ============================================================
 # ONLY THING YOU SHOULD CHANGE

@@ -2,16 +2,14 @@ import sys
 from collections import Counter
 
 import torch
-
 from zoner import (
+    CityData,
+    audit_city,
     load_cells,
     load_zoner_checkpoint,
-    CityData,
     predict_probs,
-    audit_city,
     write_findings_csv,
 )
-
 
 # ============================================================
 # SETTINGS

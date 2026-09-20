@@ -4,23 +4,20 @@ import shutil
 import numpy as np
 import torch
 import torch.nn.functional as F
-
 from config import (
     ZONE_TYPES,
 )
-
 from zoner import (
     NUM_ZONES,
     CellZoner,
     CityData,
-    load_cells,
-    fit_multi_normalization,
-    model_input_dim,
     build_input,
     evaluate_city,
+    fit_multi_normalization,
+    load_cells,
+    model_input_dim,
     save_zoner_checkpoint,
 )
-
 
 # ============================================================
 # SETTINGS
