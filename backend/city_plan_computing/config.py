@@ -1,14 +1,15 @@
+import os
 from pathlib import Path
 
 # -------------------------
 # Neo4j
 # -------------------------
 
-NEO4J_URI = "neo4j://localhost:7687"
-NEO4J_USERNAME = "neo4j"
-NEO4J_PASSWORD = "password"
-# NEO4J_DATABASE = "stockholm"
-NEO4J_DATABASE = "stockholm"
+NEO4J_URI = os.environ.get("NEO4J_URI", "neo4j://localhost:7687")
+NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "neo4j")
+# Set NEO4J_PASSWORD in the environment; never commit the credential.
+NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "")
+NEO4J_DATABASE = os.environ.get("NEO4J_DATABASE", "stockholm")
 
 # -------------------------
 # Zones
