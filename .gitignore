@@ -257,5 +257,7 @@ sprites/
 
 # The upstream Python template ignores every directory named lib; keep the
 # frontend's source library code tracked.
-!frontend/src/lib/
-!frontend/src/lib/**
+!frontend/lib/
+!frontend/lib/**
+
+.prayas-dev/

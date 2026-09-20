@@ -1,86 +1,92 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Sylvida design tokens.
+   Sylvida — zonal planning studio.
 
-   Single source of truth for the interface. Canvas and Leaflet layers cannot
-   read Tailwind utilities, so the same values are mirrored in lib/tokens.ts.
-   Change a value here and change it there.
+   Direction: a planner's drafting table after hours. Warm charcoal chrome so
+   the eye never competes with the map; the map itself is white paper carrying
+   gouache zone washes, the way a printed zoning plan looks. Hairlines instead
+   of borders, an editorial serif for anything you read once, a mono for every
+   number you read twice.
+
+   The map draws to a raw canvas, which cannot see Tailwind utilities, so these
+   values are mirrored in lib/zoning/palette.ts. Change one, change the other.
 --------------------------------------------------------------------------- */
 @theme {
-  /* Surfaces. Layered dark so the map reads as the brightest plane. */
-  --color-void: #0b0f14;
-  --color-surface: #111720;
-  --color-surface-2: #151d27;
-  --color-surface-3: #1a2430;
-  --color-line: #263241;
-  --color-line-soft: #1d2732;
+  /* Chrome. Warm charcoal, not blue-black — it has to sit next to paper. */
+  --color-ground: #14161a;
+  --color-shell: #1a1d23;
+  --color-raised: #212630;
+  --color-sunken: #101216;
+  --color-line: #2c313b;
+  --color-hairline: #23272f;
 
-  /* Text. */
-  --color-ink: #f5f7fa;
-  --color-ink-2: #a7b0bd;
-  --color-ink-3: #6f7b89;
-  --color-ink-4: #4a5562;
+  --color-ink: #eef0f3;
+  /* Four tiers, every one of which clears 4.5:1 on --color-raised, because
+     all four carry real text somewhere in the shell. */
+  --color-ink-2: #bcc3ce;
+  --color-ink-3: #9ba3b0;
+  --color-ink-4: #868e9b;
 
-  /* Brand. Used sparingly: active state, primary action, focus ring. */
-  --color-brand: #52d6e8;
-  --color-brand-dim: #2b8494;
-  --color-mint: #55d6a6;
+  /* Signal. Used for change, never for decoration. */
+  --color-flag: #e4746c;
+  --color-gain: #7fb98a;
+  --color-loss: #d4796f;
+  --color-hold: #d9b26a;
 
-  /* Semantic. */
-  --color-ok: #41d69a;
-  --color-warn: #f4c95d;
-  --color-attention: #ff9f43;
-  --color-danger: #ff5c68;
-  --color-critical: #ff4f5e;
+  /* Zone washes. Muted on purpose: nine of them share one white page. */
+  --color-z-residential: #d9a48e;
+  --color-z-commercial: #e0b269;
+  --color-z-office: #93a7cc;
+  --color-z-civic: #a996c9;
+  --color-z-industrial: #9a9188;
+  --color-z-utility: #8b939d;
+  --color-z-green: #8fb88c;
+  --color-z-agricultural: #c7be86;
+  --color-z-unbuilt: #c3c6ca;
 
-  /* Need ramp, low to critical. */
-  --color-need-0: #31c48d;
-  --color-need-1: #8bcb69;
-  --color-need-2: #e4cf57;
-  --color-need-3: #f89a45;
-  --color-need-4: #f06445;
-  --color-need-5: #e74855;
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-azeret), ui-monospace, "SF Mono", monospace;
 
-  /* Infrastructure identity. */
-  --color-healthcare: #ff6b7a;
-  --color-education: #9b8afb;
-  --color-transit: #49c9e8;
-  --color-housing: #f3b84b;
-  --color-greenspace: #57d39a;
-  --color-emergency: #f2775d;
-
-  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
-  --font-mono: var(--font-plex-mono), "JetBrains Mono", ui-monospace, monospace;
-
-  --radius-xs: 4px;
-  --radius-sm: 6px;
-  --radius-md: 8px;
+  --radius-xs: 3px;
+  --radius-sm: 5px;
+  --radius-md: 7px;
   --radius-lg: 10px;
-  --radius-xl: 12px;
-
-  --shadow-panel: 0 12px 30px rgba(0, 0, 0, 0.25);
-  --shadow-float: 0 18px 44px rgba(0, 0, 0, 0.36);
 
   --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Shell chrome dimensions, read by both CSS and layout components. */
+/* Shell geometry and the two things Settings can change. */
 :root {
-  --nav-h: 64px;
-  --metrics-h: 80px;
-  --panel-left: 312px;
-  --panel-left-collapsed: 56px;
-  --panel-right: 364px;
+  --top-h: 60px;
+  --dock-h: 202px;
+  --rail-left: 336px;
+  --rail-right: 356px;
+  --rail-collapsed: 46px;
+
+  /* Settings: accent, map wash opacity, layout density. */
+  --accent: #93b7dd;
+  --accent-ink: #14161a;
+  --wash: 0.62;
+  --pad: 1;
+
   color-scheme: dark;
+  accent-color: var(--accent);
 }
 
-@media (max-width: 1367px) {
+@media (max-width: 1440px) {
   :root {
-    --panel-left: 284px;
-    --panel-right: 332px;
+    --rail-left: 304px;
+    --rail-right: 322px;
+    --dock-h: 190px;
   }
+}
+
+:root[data-density="compact"] {
+  --top-h: 52px;
+  --dock-h: 170px;
+  --pad: 0.78;
 }
 
 html,
@@ -89,234 +95,266 @@ body {
 }
 
 body {
-  background: var(--color-void);
+  background: var(--color-ground);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 13px;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
 }
 
-/* Numbers are read as measurements, so they get the mono face everywhere. */
-.tabular {
+/* --- Type ----------------------------------------------------------------- */
+
+/* Numbers are measurements. They get the mono face and lining figures. */
+.num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  font-feature-settings: "ss01";
+  letter-spacing: -0.03em;
 }
 
-/* Keyboard focus is always visible; pointer focus is not. */
+/* Anything you read once, not repeatedly: headings, figures, the wordmark. */
+.display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 20, "WONK" 1;
+  letter-spacing: -0.015em;
+}
+
+/* Section labels. Small caps by letterspacing, since the face has no SC. */
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-3);
+}
+
+/* --- Focus and selection -------------------------------------------------- */
+
 :focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 3px;
 }
 
 ::selection {
-  background: rgba(82, 214, 232, 0.28);
+  background: color-mix(in srgb, var(--accent) 34%, transparent);
+  color: var(--color-ink);
 }
 
-/* Scrollbars inside panels. */
-.scroll-thin {
+/* --- Scrollbars ----------------------------------------------------------- */
+
+.scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-line) transparent;
+  overscroll-behavior: contain;
 }
-.scroll-thin::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+.scroll::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
 }
-.scroll-thin::-webkit-scrollbar-thumb {
+.scroll::-webkit-scrollbar-thumb {
   background: var(--color-line);
   border-radius: 99px;
 }
-.scroll-thin::-webkit-scrollbar-track {
+.scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* --- Leaflet overrides ---------------------------------------------------- */
+/* --- Paper ---------------------------------------------------------------- */
+
+/* The map is the one bright plane in the product. It gets a warm paper cast
+   and a plate edge, so it reads as something laid on the desk. */
+.paper {
+  background: #f4f2ed;
+}
+
 .leaflet-container {
-  background: #0a0e13;
+  background: #f4f2ed;
   font-family: var(--font-sans);
   outline: none;
 }
-.leaflet-container .leaflet-control-attribution {
-  background: rgba(11, 15, 20, 0.82);
-  color: var(--color-ink-4);
-  font-size: 10px;
-  padding: 2px 7px;
+.leaflet-container a {
+  color: #5a6472;
+}
+.leaflet-control-attribution {
+  background: rgba(244, 242, 237, 0.86) !important;
+  color: #7b8492 !important;
+  font-size: 9.5px !important;
+  padding: 2px 6px !important;
   border-top-left-radius: 4px;
 }
-.leaflet-container .leaflet-control-attribution a {
-  color: var(--color-ink-3);
-}
-/* OpenStreetMap ships one light cartography. Inverting and rotating the hue
-   turns it into a dark basemap without an API key; the extra desaturation
-   keeps the need surface owning the colour budget. */
+/* Esri's gray canvas carries no vegetation or terrain; the last of its cool
+   cast goes here so the ground matches the paper and the zone washes own every
+   saturated pixel on the page. Labels live in their own pane above the cells,
+   so they are not touched by this. */
 .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(185deg) brightness(0.93) saturate(0.32)
-    contrast(0.86);
+  filter: grayscale(1) brightness(1.06) contrast(0.94) sepia(0.07);
+}
+.leaflet-pane > .leaflet-pane[class*="labels"] {
+  opacity: 0.82;
 }
 .leaflet-pane canvas {
   outline: none;
 }
-.sylvida-cursor-place .leaflet-grab,
-.sylvida-cursor-place .leaflet-container {
-  cursor: crosshair;
-}
-
-
-/* --- Range input ---------------------------------------------------------- */
-/* Track fill is driven by --fill and --accent set inline by the Slider. */
-.sylvida-range {
-  --accent: var(--color-brand);
-  --fill: 50%;
-}
-.sylvida-range::-webkit-slider-runnable-track {
-  height: 3px;
-  border-radius: 99px;
-  background: linear-gradient(
-    to right,
-    var(--accent) 0%,
-    var(--accent) var(--fill),
-    var(--color-line) var(--fill),
-    var(--color-line) 100%
-  );
-}
-.sylvida-range::-moz-range-track {
-  height: 3px;
-  border-radius: 99px;
-  background: var(--color-line);
-}
-.sylvida-range::-moz-range-progress {
-  height: 3px;
-  border-radius: 99px;
-  background: var(--accent);
-}
-.sylvida-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  margin-top: -4.5px;
-  border-radius: 99px;
-  background: var(--color-ink);
-  border: 2px solid var(--color-surface);
-  box-shadow: 0 0 0 1px var(--accent);
-  transition: transform 150ms var(--ease-out-soft);
-}
-.sylvida-range::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 99px;
-  background: var(--color-ink);
-  border: 2px solid var(--color-surface);
-  box-shadow: 0 0 0 1px var(--accent);
-}
-.sylvida-range:hover::-webkit-slider-thumb {
-  transform: scale(1.12);
-}
-
-/* --- Panel scroll fade ---------------------------------------------------- */
-.fade-bottom {
-  mask-image: linear-gradient(to bottom, #000 calc(100% - 20px), transparent);
-}
-
-
-
-/* Leaflet tooltips are restyled rather than replaced so they keep Leaflet's
-   positioning logic. */
-.leaflet-tooltip.sylvida-tip {
-  background: rgba(17, 23, 32, 0.96);
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  color: var(--color-ink);
-  padding: 8px 10px;
-  font-size: 12px;
-  white-space: nowrap;
-}
-.leaflet-tooltip.sylvida-tip::before {
-  display: none;
-}
-
-/* --- Map markers ---------------------------------------------------------- */
-.sylvida-marker {
-  background: transparent;
-  border: 0;
-}
-.sylvida-marker-shell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  backdrop-filter: blur(2px);
-  transition:
-    box-shadow 150ms var(--ease-out-soft),
-    transform 150ms var(--ease-out-soft);
-}
-.leaflet-marker-icon:hover .sylvida-marker-shell {
-  transform: translateY(-1px);
-}
-.sylvida-ghost {
-  pointer-events: none;
-}
-
-/* A placed facility lands rather than appearing. */
-@keyframes sylvida-drop {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.08);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-.sylvida-drop .sylvida-marker-shell {
-  animation: sylvida-drop 320ms var(--ease-out-soft);
-}
 
 /* --- Motion --------------------------------------------------------------- */
-@keyframes sylvida-sweep {
-  0% {
-    transform: translateX(-100%);
-  }
+
+/* The flagged cell. Four pulses fill the two-second hold before the dive. */
+@keyframes flag-pulse {
+  0%,
   100% {
-    transform: translateX(200%);
+    opacity: 0.15;
+    transform: scale(1);
   }
-}
-.sweep::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(82, 214, 232, 0.14),
-    transparent
-  );
-  animation: sylvida-sweep 1.5s var(--ease-out-soft) infinite;
+  50% {
+    opacity: 0.95;
+    transform: scale(1.06);
+  }
 }
 
-@keyframes sylvida-ping {
+/* The camera.
+
+   A real field-of-view change is a perspective change, so that is what these
+   animate: the perspective distance drops as the camera dollies, which widens
+   the lens and bows the map the way a fast push-in does. translateZ against a
+   short perspective does the scaling, so no separate scale() is needed.
+
+   They run on the Leaflet container itself. Scaling it below 1 briefly shows
+   the shell around the plate, which is the point — the map reads as a thing
+   the camera is pulling away from. */
+@keyframes fov-ascend {
   0% {
-    transform: scale(0.6);
-    opacity: 0.85;
+    transform: perspective(1800px) translateZ(0) rotateX(0deg);
+    filter: blur(0px) brightness(1);
+  }
+  38% {
+    transform: perspective(460px) translateZ(-300px) rotateX(7deg);
+    filter: blur(4.4px) brightness(1.09);
   }
   100% {
-    transform: scale(2.4);
+    transform: perspective(900px) translateZ(-150px) rotateX(2deg);
+    filter: blur(1.4px) brightness(1.04);
+  }
+}
+
+@keyframes fov-dive {
+  0% {
+    transform: perspective(900px) translateZ(-230px) rotateX(2deg);
+    filter: blur(3.4px) brightness(1.05);
+  }
+  44% {
+    transform: perspective(420px) translateZ(96px) rotateX(-4deg);
+    filter: blur(1.4px) brightness(1.02);
+  }
+  100% {
+    transform: perspective(1800px) translateZ(0) rotateX(0deg);
+    filter: blur(0px) brightness(1);
+  }
+}
+
+.fov {
+  will-change: transform, filter;
+  /* The camera owns the map for the length of the move. */
+  pointer-events: none;
+}
+.fov-ascend {
+  animation: fov-ascend var(--fov-ms, 470ms) cubic-bezier(0.3, 0, 0.1, 1) both;
+}
+.fov-dive {
+  animation: fov-dive var(--fov-ms, 1130ms) cubic-bezier(0.45, 0, 0.12, 1) both;
+}
+
+/* The cut at the top of the arc, over the map only. */
+@keyframes switch-blink {
+  0% {
     opacity: 0;
   }
+  38% {
+    opacity: 0.92;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: switch-blink var(--blink-ms, 190ms) steps(24, end) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 360ms var(--ease-out-soft) both;
+}
+
+@keyframes draw-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -140% 0;
+  }
+  to {
+    background-position: 240% 0;
+  }
+}
+.shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--accent) 16%, transparent),
+    transparent
+  );
+  background-size: 60% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* Sylvy thinking. Three dots, staggered. */
+@keyframes blink-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.22;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+:root[data-motion="calm"] *,
+:root[data-motion="calm"] *::before,
+:root[data-motion="calm"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.001ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }

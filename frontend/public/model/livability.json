@@ -1,0 +1,197 @@
+{
+  "formula": "L_s = mean_m sigmoid(g_theta_m(x_s, H_s))",
+  "source": "FORMULA_SUMMARY.md",
+  "seeds": [
+    11,
+    26,
+    41
+  ],
+  "radius": 5.0,
+  "heads": 3,
+  "keyDim": 16,
+  "maxNeighbors": 81,
+  "focalDim": 11,
+  "typeClasses": [
+    "Residential",
+    "Commercial",
+    "Civic",
+    "Green",
+    "Office",
+    "Utility",
+    "Industrial",
+    "Agricultural",
+    "Unbuilt"
+  ],
+  "zones": [
+    "residential",
+    "commercial",
+    "office",
+    "civic",
+    "industrial",
+    "utility",
+    "green",
+    "agricultural",
+    "unbuilt"
+  ],
+  "zoneToType": [
+    0,
+    1,
+    4,
+    2,
+    6,
+    5,
+    3,
+    7,
+    8
+  ],
+  "scaler": {
+    "mean": [
+      8.009950637817383,
+      14.62415599822998
+    ],
+    "std": [
+      1.713871955871582,
+      20.136362075805664
+    ]
+  },
+  "layout": [
+    {
+      "name": "q_w",
+      "shape": [
+        11,
+        48
+      ]
+    },
+    {
+      "name": "q_b",
+      "shape": [
+        48
+      ]
+    },
+    {
+      "name": "kv_w",
+      "shape": [
+        14,
+        48
+      ]
+    },
+    {
+      "name": "kv_b",
+      "shape": [
+        48
+      ]
+    },
+    {
+      "name": "aq_w",
+      "shape": [
+        48,
+        3,
+        16
+      ]
+    },
+    {
+      "name": "aq_b",
+      "shape": [
+        3,
+        16
+      ]
+    },
+    {
+      "name": "ak_w",
+      "shape": [
+        48,
+        3,
+        16
+      ]
+    },
+    {
+      "name": "ak_b",
+      "shape": [
+        3,
+        16
+      ]
+    },
+    {
+      "name": "av_w",
+      "shape": [
+        48,
+        3,
+        16
+      ]
+    },
+    {
+      "name": "av_b",
+      "shape": [
+        3,
+        16
+      ]
+    },
+    {
+      "name": "ao_w",
+      "shape": [
+        3,
+        16,
+        48
+      ]
+    },
+    {
+      "name": "ao_b",
+      "shape": [
+        48
+      ]
+    },
+    {
+      "name": "fp_w",
+      "shape": [
+        11,
+        48
+      ]
+    },
+    {
+      "name": "fp_b",
+      "shape": [
+        48
+      ]
+    },
+    {
+      "name": "d1_w",
+      "shape": [
+        192,
+        64
+      ]
+    },
+    {
+      "name": "d1_b",
+      "shape": [
+        64
+      ]
+    },
+    {
+      "name": "d2_w",
+      "shape": [
+        64,
+        32
+      ]
+    },
+    {
+      "name": "d2_b",
+      "shape": [
+        32
+      ]
+    },
+    {
+      "name": "out_w",
+      "shape": [
+        32,
+        1
+      ]
+    },
+    {
+      "name": "out_b",
+      "shape": [
+        1
+      ]
+    }
+  ],
+  "perSeedFloats": 25745
+}
